@@ -1,0 +1,9 @@
+\.venv
+excersize.py
+__pycache__/
+app.log
+logging_example 8.py
+docker_log.log
+my_check_access_image.tar
+install_docker_on_ubuntu.sh
+config.json
