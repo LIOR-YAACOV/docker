@@ -1,5 +1,6 @@
 \.venv
-excercize.py
+excersize.py
 __pycache__/
 app.log
 logging_example 8.py
+docker_log.log

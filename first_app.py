@@ -20,20 +20,38 @@ def welcome():
 
 @app.route('/login/<name>')
 def login(name):
-    try:
-        with open('config.json', 'r') as config_file:
-            config_data = json.load(config_file)
-            logging.debug("Config file found")
-        if name in config_data:
-            logging.info(f"Name {name} is granted access")
-            return "Access Granted"
-        else:
-            logging.warning(f"Name {name} is not granted access")
-            return "Access Denied" 
-    except FileNotFoundError:
-        logging.critical("Config file does not exist!")
-        return "Error: Config file missing."
+    if name in allowed_users:
+        logging.info(f"Name {name} is granted access")
+        response = "Access Granted"
+    else:
+        logging.warning(f"Name {name} is not granted access")
+        response = "Access Denied"
+    return response
+    # try:
+    #     with open('config.json', 'r') as config_file:
+    #         config_data = json.load(config_file)
+    #         logging.debug("Config file found")
+    #     if name in config_data:
+    #         logging.info(f"Name {name} is granted access")
+    #         return "Access Granted"
+    #     else:
+    #         logging.warning(f"Name {name} is not granted access")
+    #         return "Access Denied" 
+    # except FileNotFoundError:
+    #     logging.critical("Config file does not exist!")
+    #     return "Error: Config file missing."
     # return f'Hello, {name}! You have successfully logged in.'
+
+try:
+    with open('config.json', 'r') as config_file:
+            allowed_users = json.load(config_file)
+            for name in allowed_users:
+                logging.info(f"Allowed user from config: {name}")
+            allowed_users = set(allowed_users)
+            logging.info(f"Config file {config_file} found")            
+except FileNotFoundError:
+        logging.critical("Config file does not exist!")
+        
 
 if __name__ == '__main__':
     app.run(host=os.environ.get('HOST_IP'), port=80)
