@@ -1,1 +1,5 @@
 \.venv
+excercize.py
+__pycache__/
+app.log
+logging_example 8.py

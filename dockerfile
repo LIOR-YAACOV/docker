@@ -8,7 +8,7 @@ COPY requirements.txt /app/
 
 RUN pip install -r requirements.txt
 
-ENV HOST_IP=127.0.0.1
+ENV HOST_IP=0.0.0.0
 
 EXPOSE 80
 
