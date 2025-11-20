@@ -2,6 +2,8 @@ from flask import Flask
 import json
 import os
 import logging
+from printColors import printGreen, printRed, printBlack
+import json
 
 app = Flask(__name__)
 
@@ -22,25 +24,19 @@ def welcome():
 def login(name):
     if name in allowed_users:
         logging.info(f"Name {name} is granted access")
-        response = "Access Granted"
+        response = printGreen("Access Granted")
     else:
         logging.warning(f"Name {name} is not granted access")
-        response = "Access Denied"
+        response = printRed("Access Denied")
     return response
-    # try:
-    #     with open('config.json', 'r') as config_file:
-    #         config_data = json.load(config_file)
-    #         logging.debug("Config file found")
-    #     if name in config_data:
-    #         logging.info(f"Name {name} is granted access")
-    #         return "Access Granted"
-    #     else:
-    #         logging.warning(f"Name {name} is not granted access")
-    #         return "Access Denied" 
-    # except FileNotFoundError:
-    #     logging.critical("Config file does not exist!")
-    #     return "Error: Config file missing."
-    # return f'Hello, {name}! You have successfully logged in.'
+
+@app.route('/addName/<name>')
+def addName(name):
+    response = printGreen(f"Name {name} added successfully")
+    allowed_users.add(name)
+    with open('config.json', 'w') as allowed_users_file:
+        json.dump(list(allowed_users), allowed_users_file)
+    return response
 
 try:
     with open('config.json', 'r') as config_file:
@@ -51,6 +47,7 @@ try:
             logging.info(f"Config file {config_file} found")            
 except FileNotFoundError:
         logging.critical("Config file does not exist!")
+        printBlack("Error: Config file missing.")
         
 
 if __name__ == '__main__':

@@ -5,6 +5,7 @@ WORKDIR /app
 COPY first_app.py /app/
 COPY config.json /app/
 COPY requirements.txt /app/
+COPY printColors.py /app/
 
 RUN pip install -r requirements.txt
 
